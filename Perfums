@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfume Shop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Perfume Shop</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Catálogo</a></li>
+                <li><a href="#">Contacto</a></li>
+                <li><a href="#" id="cart">🛒 Carrito (0)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <h2>Encuentra tu aroma perfecto</h2>
+        <p>Las mejores fragancias a los mejores precios</p>
+    </section>
+
+    <section class="productos">
+        <h2>Nuestros Perfumes</h2>
+        <div class="grid">
+            <div class="producto"><h3>Fresh Citrus</h3><p>$10.00</p><button onclick="agregarAlCarrito('Fresh Citrus', 10)">Agregar</button></div>
+            <div class="producto"><h3>Ocean Breeze</h3><p>$15.00</p><button onclick="agregarAlCarrito('Ocean Breeze', 15)">Agregar</button></div>
+            <div class="producto"><h3>Classic Elegance</h3><p>$40.00</p><button onclick="agregarAlCarrito('Classic Elegance', 40)">Agregar</button></div>
+            <div class="producto"><h3>Amber Nights</h3><p>$50.00</p><button onclick="agregarAlCarrito('Amber Nights', 50)">Agregar</button></div>
+            <div class="producto"><h3>Royal Musk</h3><p>$100.00</p><button onclick="agregarAlCarrito('Royal Musk', 100)">Agregar</button></div>
+        </div>
+    </section>
+
+    <section class="ruleta-container">
+        <h2>🎰 Ruleta de la Suerte 🎰</h2>
+        <p>¡Gira la ruleta una vez al día y gana todos los perfumes que quieras!</p>
+        <button id="girarRuleta" onclick="girarRuleta()">🎡 Girar</button>
+        <p id="resultadoRuleta"></p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Perfume Shop - Todos los derechos reservados</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+ body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+header {
+    background: #333;
+    color: white;
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.banner {
+    background: url('banner.jpg') no-repeat center;
+    background-size: cover;
+    color: white;
+    padding: 50px;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.producto {
+    border: 1px solid #ccc;
+    padding: 15px;
+    text-align: center;
+    width: 200px;
+}
+
+button {
+    background: #ff5733;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+footer {
+    background: #333;
+    color: white;
+    padding: 10px;
+}
+
+.ruleta-container {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    border: 2px solid #ff5733;
+    border-radius: 10px;
+    background: #fff3e6;
+}
+
+.ruleta-container h2 {
+    color: #d32f2f;
+}
+
+#resultadoRuleta {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+let carrito = 0;
+
+function agregarAlCarrito(nombre, precio) {
+    carrito++;
+    document.getElementById('cart').innerText = `🛒 Carrito (${carrito})`;
+    alert(`${nombre} agregado al carrito por $${precio}`);
+}
+
+function girarRuleta() {
+    let ultimoIntento = localStorage.getItem('ultimaTirada');
+    let hoy = new Date().toDateString();
+
+    if (ultimoIntento === hoy) {
+        document.getElementById('resultadoRuleta').innerText = "❌ Ya usaste tu tirada hoy. Vuelve mañana.";
+        return;
+    }
+
+    let probabilidad = Math.random();
+    let posibilidadGanar = 0.001; // 0.1% de probabilidad de ganar
+
+    if (probabilidad < posibilidadGanar) {
+        document.getElementById('resultadoRuleta').innerText = "🎉 ¡Felicidades! Has ganado. Elige todos los perfumes que quieras gratis. 🛍️";
+    } else {
+        document.getElementById('resultadoRuleta').innerText = "😢 No ganaste esta vez. Inténtalo mañana.";
+    }
+
+    localStorage.setItem('ultimaTirada', hoy);
+}
